@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ghanashyam Mandal | Aspiring Consultant</title>
+    <!-- Chosen Palette: Warm Neutrals -->
+    <!-- Application Structure Plan: The SPA is designed as a narrative-driven interactive portfolio. Instead of a linear resume format, it uses thematic sections (Profile, Experience, Skills) navigated by a sticky header. The core is the 'Experience & Impact' section, which features interactive tabs. The 'Kaggle Project' tab includes a dynamic chart allowing recruiters to actively explore data and see corresponding strategic insights, directly demonstrating analytical skills. The 'Leadership' tab uses impact cards to quantify achievements. This structure was chosen to transform passive information into an active demonstration of consulting-relevant skills (analysis, impact, strategic thinking), making the profile more memorable and engaging for recruiters. -->
+    <!-- Visualization & Content Choices: 1. Kaggle Project: Report Info -> Mobility data analysis. Goal -> Demonstrate analytical and strategic thinking. Viz -> Interactive Bar Chart (Chart.js) + Dynamic Text. Interaction -> User clicks buttons ('Retail', 'Workplace') to update the chart and see relevant strategic implications. Justification -> Actively shows problem-solving skills, not just tells. Library -> Chart.js. 2. E-Cell Experience: Report Info -> Leadership roles and achievements. Goal -> Showcase leadership and quantifiable impact. Viz -> Impact Cards (HTML/Tailwind) with large numbers and icons. Interaction -> Hover effects. Justification -> Modern, scannable, and highlights key metrics effectively. Method -> HTML/CSS. 3. Skills: Report Info -> List of technical skills. Goal -> Organize and present skills clearly. Viz -> Categorized skill grid. Interaction -> Hover effects. Justification -> Better readability and visual organization than a list. Method -> HTML/CSS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f3f1; /* Warm neutral background */
+            color: #1c1917; /* Dark text for contrast */
+        }
+        .nav-link {
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: #0c4a6e; /* Accent color */
+            border-bottom-color: #0c4a6e;
+        }
+        .btn-primary {
+            background-color: #0c4a6e;
+            color: #ffffff;
+            transition: background-color 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #075985;
+        }
+        .btn-secondary {
+            background-color: #e7e5e4;
+            color: #1c1917;
+            transition: background-color 0.3s;
+        }
+        .btn-secondary:hover {
+            background-color: #d6d3d1;
+        }
+        .tab.active {
+            background-color: #0c4a6e;
+            color: #ffffff;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header id="home" class="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-sm">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex-shrink-0">
+                    <a href="#home" class="text-xl font-bold text-gray-800">Ghanashyam Mandal</a>
+                </div>
+                <nav class="hidden md:flex md:space-x-8">
+                    <a href="#profile" class="nav-link text-gray-600 font-medium border-b-2 border-transparent pb-1">Profile</a>
+                    <a href="#experience" class="nav-link text-gray-600 font-medium border-b-2 border-transparent pb-1">Experience & Impact</a>
+                    <a href="#skills" class="nav-link text-gray-600 font-medium border-b-2 border-transparent pb-1">Skills</a>
+                    <a href="#contact" class="nav-link text-gray-600 font-medium border-b-2 border-transparent pb-1">Contact</a>
+                </nav>
+                <div class="md:hidden">
+                     <button id="mobile-menu-button" class="text-gray-700 hover:text-gray-900 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white">
+            <a href="#profile" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Profile</a>
+            <a href="#experience" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Experience & Impact</a>
+            <a href="#skills" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Skills</a>
+            <a href="#contact" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100">Contact</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <!-- Hero Section -->
+        <section class="text-center py-16 md:py-24">
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-tight text-gray-900">
+                <span class="block">Ghanashyam Mandal</span>
+                <span class="block text-2xl md:text-4xl text-sky-800 mt-2">Chemical Engineering Student at IIT Madras</span>
+            </h1>
+            <p class="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-600">
+                Highly analytical and results-driven student with a passion for leveraging data to solve complex problems and drive strategic marketing initiatives.
+            </p>
+            <div class="mt-8 flex justify-center space-x-4">
+                <a href="#experience" class="btn-primary py-3 px-6 rounded-lg font-semibold shadow-md">Explore My Work</a>
+                <a href="mailto:ghanashyamjack123@gmail.com" class="btn-secondary py-3 px-6 rounded-lg font-semibold">Get In Touch</a>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile" class="py-16 scroll-mt-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Profile Summary</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">A blend of rigorous engineering education from IIT Madras and hands-on experience in data analysis and strategic planning.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                <div class="bg-white p-8 rounded-xl shadow-md border border-gray-200">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Education</h3>
+                    <p class="text-xl font-bold text-sky-800">Indian Institute of Technology Madras (IIT Madras)</p>
+                    <p class="text-lg text-gray-700">B.Tech in Chemical Engineering</p>
+                    <p class="text-md text-gray-500">Expected Graduation: May 2027</p>
+
+                    <div class="mt-6 space-y-4">
+                        <div class="flex items-center">
+                            <div class="bg-sky-100 text-sky-800 p-2 rounded-full mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v11.494m0 0a8.485 8.485 0 001.242-4.242 8.485 8.485 0 00-1.242-4.242M12 6.253a8.485 8.485 0 01-1.242 4.242 8.485 8.485 0 011.242 4.242M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-800">CGPA: 7.99 / 10.0</p>
+                                <p class="text-sm text-gray-500">Demonstrating consistent academic excellence.</p>
+                            </div>
+                        </div>
+                         <div class="flex items-center">
+                            <div class="bg-sky-100 text-sky-800 p-2 rounded-full mr-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-gray-800">JEE Advanced AIR 1141</p>
+                                <p class="text-sm text-gray-500">Top ~0.6% among 180,000+ aspirants.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md border border-gray-200">
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-4">Core Competencies</h3>
+                    <ul class="space-y-4 text-lg">
+                        <li class="flex items-start"><span class="text-sky-600 mr-3 font-bold">✔</span> Data-Driven Problem Solving</li>
+                        <li class="flex items-start"><span class="text-sky-600 mr-3 font-bold">✔</span> Strategic Planning & Execution</li>
+                        <li class="flex items-start"><span class="text-sky-600 mr-3 font-bold">✔</span> Leadership & Team Coordination</li>
+                        <li class="flex items-start"><span class="text-sky-600 mr-3 font-bold">✔</span> Quantitative & Analytical Rigor</li>
+                        <li class="flex items-start"><span class="text-sky-600 mr-3 font-bold">✔</span> Marketing & Brand Strategy</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience & Impact Section -->
+        <section id="experience" class="py-16 scroll-mt-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Experience & Impact</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">This section highlights my practical experience in data analysis, leadership, and technical innovation. Click through the tabs to explore how I've applied my skills to deliver tangible results and create strategic value.</p>
+            </div>
+            
+            <!-- Tabs -->
+            <div class="mb-8 flex justify-center flex-wrap gap-2">
+                <button class="tab active px-4 py-2 font-semibold rounded-md" data-tab="analytics">Data & Analytics</button>
+                <button class="tab px-4 py-2 font-semibold rounded-md btn-secondary" data-tab="leadership">Leadership & Strategy</button>
+                <button class="tab px-4 py-2 font-semibold rounded-md btn-secondary" data-tab="technical">Technical Projects</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div id="tab-content">
+                <!-- Data & Analytics Tab -->
+                <div class="tab-pane active" id="analytics">
+                    <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-200">
+                        <h3 class="text-2xl font-bold text-center mb-2 text-gray-800">Kaggle Project: Mobility Report Analysis (Baden-Württemberg, Germany)</h3>
+                        <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">This project analyzed Google Mobility data from Baden-Württemberg (BW), Germany, in 2020 to uncover the relationship between human mobility patterns and consumer purchasing behavior during COVID-19. The interactive chart below visualizes monthly mobility deviations from baseline for key categories. Click on a category to see the data and its strategic marketing implications.</p>
+                        
+                        <div class="flex justify-center flex-wrap gap-3 mb-8">
+                            <button class="chart-update-btn px-4 py-2 text-sm font-medium rounded-md bg-sky-100 text-sky-800" data-trend="grocery">Grocery & Pharmacy</button>
+                            <button class="chart-update-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-100 text-gray-800" data-trend="retail">Retail & Recreation</button>
+                            <button class="chart-update-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-100 text-gray-800" data-trend="transit">Transit Stations</button>
+                            <button class="chart-update-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-100 text-gray-800" data-trend="parks">Parks</button>
+                            <button class="chart-update-btn px-4 py-2 text-sm font-medium rounded-md bg-gray-100 text-gray-800" data-trend="residential">Residential Areas</button>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+                            <div class="lg:col-span-3">
+                                <div class="chart-container">
+                                    <canvas id="mobilityChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="lg:col-span-2">
+                                <div id="insight-card" class="bg-sky-50 p-6 rounded-lg border-l-4 border-sky-500">
+                                    <h4 class="text-xl font-semibold mb-2 text-sky-900">Strategic Insight</h4>
+                                    <p id="insight-text" class="text-gray-700">Select a category to view the associated marketing insight.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-12">
+                            <h4 class="text-2xl font-bold text-center mb-4 text-gray-800">Key Findings Summary</h4>
+                            <p class="text-gray-700 mb-4">This analysis presents deviations from the baseline mobility across various categories in the **Baden-Württemberg (BW)** region of Germany during 2020. The values represent percentage changes from pre-COVID baseline levels, helping to understand behavioral trends over time.</p>
+                            
+                            <h5 class="text-xl font-semibold text-gray-800 mb-2">Monthly Trends:</h5>
+                            <ul class="list-disc list-inside text-gray-700 mb-4 space-y-1">
+                                <li>Grocery & Pharmacy: Mobility remained relatively stable throughout the year, with moderate deviations (Min: -11.17, Max: 5.03).</li>
+                                <li>Parks: Consistently above baseline, peaking in August (137.2%), indicating high public engagement.</li>
+                                <li>Residential Areas: Activity levels remained largely unchanged throughout the year (Max: 13.43 in April, Min: 1.3 in September).</li>
+                                <li>Retail & Recreation: Consistently below baseline, reflecting cautious consumer behavior, with a plateau during July, August, and September (Min: -51.15, Max: -0.18).</li>
+                                <li>Transit Stations: Always below baseline, indicating reduced reliance on public transport, with a downward trend toward December (Min: -48.07 in April, Max: -0.08 in February).</li>
+                            </ul>
+
+                            <h5 class="text-xl font-semibold text-gray-800 mb-2">Day-wise Trends (Average Over the Year):</h5>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                <li>Grocery & Pharmacy: Clear preference for shopping at the start and end of each month (Max: 9.88 on 2nd day, Min: -16.28 on 1st day).</li>
+                                <li>Parks: Remained the most preferred category with consistently positive deviations, peaking around every 10 days (1st, 11th, 21st).</li>
+                                <li>Residential Areas: Showed negligible fluctuation, indicating a uniform pattern throughout the year.</li>
+                                <li>Retail & Recreation: Consistently below baseline, but showed minor peaks during the start, middle, and end phases of each month.</li>
+                                <li>Transit Stations: Activity remained consistently negative, with slight peaks around the middle of the month.</li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-12">
+                            <h4 class="text-2xl font-bold text-center mb-4 text-gray-800">Tools Used</h4>
+                            <ul class="list-disc list-inside text-gray-700 space-y-1 max-w-2xl mx-auto">
+                                <li>BigQuery: Used to query, filter, and clean the raw Google Mobility data for the BW region (2020).</li>
+                                <li>Python (Kaggle Notebooks): Assisted in exploring file structures, managing extractions, and structuring observations for documentation.</li>
+                                <li>Tableau: Visualized month-wise and day-wise mobility trends through interactive dashboards for pattern discovery.</li>
+                                <li>Kaggle: Used as a collaborative environment to document, analyze, and present findings in a reproducible format.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leadership & Strategy Tab -->
+                <div class="tab-pane hidden" id="leadership">
+                    <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-200">
+                        <h3 class="text-2xl font-bold text-center mb-2 text-gray-800">Leadership at E-Cell, IIT Madras</h3>
+                        <p class="text-center text-gray-600 max-w-3xl mx-auto mb-8">As Manager and Associate Manager for Marketing & Public Relations, I led initiatives that enhanced brand visibility, drove engagement, and optimized team operations. The cards below showcase the key quantifiable impacts of this work.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <div class="bg-stone-100 p-6 rounded-lg text-center">
+                                <p class="text-4xl font-bold text-sky-800">3+</p>
+                                <p class="mt-2 font-semibold text-gray-700">Major Events Executed</p>
+                                <p class="text-sm text-gray-600">Coordinated 5+ cross-functional teams.</p>
+                            </div>
+                            <div class="bg-stone-100 p-6 rounded-lg text-center">
+                                <p class="text-4xl font-bold text-sky-800">2,000+</p>
+                                <p class="mt-2 font-semibold text-gray-700">Attendees Engaged</p>
+                                <p class="text-sm text-gray-600">Boosted brand outreach and visibility.</p>
+                            </div>
+                            <div class="bg-stone-100 p-6 rounded-lg text-center">
+                                <p class="text-4xl font-bold text-sky-800">~10%</p>
+                                <p class="mt-2 font-semibold text-gray-700">Audience Growth</p>
+                                <p class="text-sm text-gray-600">Across all social media platforms.</p>
+                            </div>
+                        </div>
+                         <div class="mt-8 text-center text-gray-700">
+                            <h4 class="font-semibold text-lg">Key Responsibilities:</h4>
+                            <ul class="mt-2 text-gray-600 list-disc list-inside inline-block text-left">
+                                <li>Comprehensive marketing & PR initiatives</li>
+                                <li>Strategic planning and campaign execution</li>
+                                <li>Operational workflow optimization</li>
+                                <li>Data integrity and database management</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Technical Projects Tab -->
+                <div class="tab-pane hidden" id="technical">
+                    <div class="bg-white p-6 md:p-8 rounded-xl shadow-lg border border-gray-200">
+                        <h3 class="text-2xl font-bold text-center mb-8 text-gray-800">Technical & Research Projects</h3>
+                        <div class="space-y-6">
+                            <div class="bg-stone-100 p-6 rounded-lg">
+                                <h4 class="text-xl font-semibold text-gray-800">Gestural Music (Envisage)</h4>
+                                <p class="mt-2 text-gray-600">Developed an advanced finger detection model using OpenCV and Mediapipe to convert real-time gestures into musical output. Engineered a custom gesture-to-MIDI mapping system, demonstrating innovative application of computer vision and practical problem-solving.</p>
+                            </div>
+                            <div class="bg-stone-100 p-6 rounded-lg">
+                                <h4 class="text-xl font-semibold text-gray-800">Solubility of Non-polar Gases</h4>
+                                <p class="mt-2 text-gray-600">Course research project investigating the solubility of gases in ethylene oxide. Utilized advanced gas chromatography and thermodynamic analysis to achieve high-precision data, showcasing rigorous analytical and experimental skills.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="py-16 scroll-mt-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Technical Skillset</h2>
+                <p class="mt-4 text-lg text-gray-600 max-w-3xl mx-auto">A versatile toolkit for data analysis, programming, and technical implementation.</p>
+            </div>
+            <div class="bg-white p-8 rounded-xl shadow-md border border-gray-200">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div>
+                        <h4 class="font-semibold text-xl mb-4 text-sky-800">Data Analysis & Visualization</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">Python (Pandas, NumPy, Matplotlib)</span>
+                            <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">SQL (MySQL, BigQuery)</span>
+                            <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">Tableau</span>
+                            <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">RStudio</span>
+                            <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">Google Data Analytics</span>
+                        </div>
+                    </div>
+                     <div>
+                        <h4 class="font-semibold text-xl mb-4 text-sky-800">Programming & Development</h4>
+                        <div class="flex flex-wrap gap-2">
+                             <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">Python</span>
+                             <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">C</span>
+                             <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">R</span>
+                             <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">HTML</span>
+                             <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">CSS</span>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-xl mb-4 text-sky-800">Tools & Platforms</h4>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">MATLAB</span>
+                            <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">MS Office (Excel, PowerPoint)</span>
+                            <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">Aspen</span>
+                            <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">AI Tools (ChatGPT, Gemini)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    
+    <!-- Footer -->
+    <footer id="contact" class="bg-gray-800 text-white mt-16 scroll-mt-16">
+        <div class="container mx-auto py-12 px-4 sm:px-6 lg:px-8 text-center">
+             <h2 class="text-2xl font-bold">Let's Connect</h2>
+             <p class="mt-2 max-w-md mx-auto text-gray-400">I'm actively seeking consulting internship opportunities and am eager to discuss how my skills can bring value to your team.</p>
+             <div class="mt-6 flex justify-center items-center space-x-6">
+                <a href="mailto:ghanashyamjack123@gmail.com" class="hover:text-sky-400 transition">ghanashyamjack123@gmail.com</a>
+                <span class="text-gray-500">|</span>
+                <a href="https://www.linkedin.com/in/ghanashyammandal07" target="_blank" rel="noopener noreferrer" class="hover:text-sky-400 transition">LinkedIn</a>
+                 <span class="text-gray-500">|</span>
+                <a href="https://www.kaggle.com/ghanashyammandal" target="_blank" rel="noopener noreferrer" class="hover:text-sky-400 transition">Kaggle</a>
+            </div>
+            <p class="mt-8 text-sm text-gray-500">&copy; 2024 Ghanashyam Mandal. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile Menu Toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Close mobile menu on link click
+            document.querySelectorAll('#mobile-menu a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Tab functionality
+            const tabs = document.querySelectorAll('.tab');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const targetPaneId = tab.dataset.tab;
+
+                    tabs.forEach(t => {
+                        t.classList.remove('active', 'btn-primary');
+                        t.classList.add('btn-secondary');
+                    });
+                    tab.classList.add('active', 'btn-primary');
+                    tab.classList.remove('btn-secondary');
+
+                    tabPanes.forEach(pane => {
+                        if (pane.id === targetPaneId) {
+                            pane.classList.remove('hidden');
+                            pane.classList.add('active');
+                        } else {
+                            pane.classList.add('hidden');
+                            pane.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            // Chart.js functionality
+            const mobilityData = {
+                grocery: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    values: [1.32, 5.03, -11.17, -8.76, -1.97, -3.21, -3.98, -4.56, -4.89, -5.23, -6.12, -7.05],
+                    insight: 'For **Grocery & Pharmacy**, mobility remained relatively stable throughout the year, with moderate deviations. This suggests consistent demand for essentials. Marketers should leverage early-month grocery trends, concentrating campaigns for FMCG and essentials around the start and end of each month when grocery/pharmacy traffic peaked.'
+                },
+                retail: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    values: [1.76, -0.18, -41.32, -51.15, -34.87, -26.98, -25.76, -26.12, -27.05, -30.18, -38.45, -45.67],
+                    insight: 'For **Retail & Recreation**, mobility was consistently below baseline, reflecting cautious consumer behavior. A plateau was observed during July, August, and September. Retailers should prioritize e-commerce integration and prepare for reduced in-store activity. Ad-tech companies should rethink ad placements away from these areas and redirect efforts toward apps and home devices.'
+                },
+                transit: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    values: [-0.08, -1.23, -39.45, -48.07, -32.19, -24.56, -23.11, -23.54, -24.87, -28.01, -35.78, -42.93],
+                    insight: 'For **Transit Stations**, activity was always below baseline, indicating reduced reliance on public transport, with a downward trend toward December. This impacts out-of-home advertising. Marketing spend could be reallocated to digital platforms targeting commuters during peak online hours. Policymakers should time announcements and aid delivery considering these trends, leveraging pharmacy/grocery hotspots for distributing health updates or relief material.'
+                },
+                parks: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    values: [1.5, 3.2, 18.5, 55.7, 89.1, 115.3, 128.9, 137.2, 95.6, 68.4, 35.1, -5.0],
+                    insight: 'For **Parks**, mobility was consistently above the baseline, indicating high public engagement. A steady rise was observed from May to July, with a peak in August. Marketers can use parks as brand engagement zones, utilizing local park-based activations or banner placements for offline visibility. Policymakers should enhance safety in these high-footfall public spaces, providing sanitization and crowd control.'
+                },
+                residential: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                    values: [2.1, 3.5, 8.9, 13.43, 10.2, 8.5, 7.1, 6.8, 1.3, 4.5, 9.8, 12.5],
+                    insight: 'For **Residential Areas**, activity levels remained largely unchanged throughout the year, with a maximum in April. Marketers should shift ad spend toward residential and digital touchpoints, as digital and home-targeted marketing (TV, in-app, OTT ads) would have been more effective than outdoor placements. Policymakers should support digital infrastructure in residential zones, improving bandwidth or subsidizing digital access.'
+                }
+            };
+
+            const insightTextEl = document.getElementById('insight-text');
+            const insightCardEl = document.getElementById('insight-card');
+            const ctx = document.getElementById('mobilityChart').getContext('2d');
+            let mobilityChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Mobility Change from Baseline (%)',
+                        data: [],
+                        backgroundColor: '#0ea5e9',
+                        borderColor: '#0284c7',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            title: {
+                                display: true,
+                                text: 'Change from Baseline (%)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `Change: ${context.raw}%`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            const chartUpdateButtons = document.querySelectorAll('.chart-update-btn');
+            function updateChart(trend) {
+                const data = mobilityData[trend];
+                mobilityChart.data.labels = data.labels;
+                mobilityChart.data.datasets[0].data = data.values;
+                mobilityChart.update();
+
+                insightTextEl.textContent = data.insight;
+                
+                chartUpdateButtons.forEach(btn => {
+                   if(btn.dataset.trend === trend) {
+                       btn.classList.remove('bg-gray-100', 'text-gray-800');
+                       btn.classList.add('bg-sky-100', 'text-sky-800');
+                   } else {
+                       btn.classList.remove('bg-sky-100', 'text-sky-800');
+                       btn.classList.add('bg-gray-100', 'text-gray-800');
+                   }
+                });
+            }
+
+            chartUpdateButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    updateChart(button.dataset.trend);
+                });
+            });
+
+            // Initial chart load
+            updateChart('grocery'); // Set initial chart to Grocery & Pharmacy
+            
+            // Active nav link scrolling
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('header nav a');
+
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if (window.scrollY >= sectionTop - 80) { // Using window.scrollY for modern browsers
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href').includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
